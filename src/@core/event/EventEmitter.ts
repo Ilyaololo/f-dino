@@ -12,6 +12,9 @@ export interface IEventEmitter {
 
 @Bind()
 export class EventEmitter implements IEventEmitter {
+  // @Descriptor({
+  //   enumerable: false,
+  // })
   private readonly listener: Map<string, Handler[]> = new Map();
 
   @Descriptor({

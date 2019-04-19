@@ -12,11 +12,17 @@ export interface ICollisionSystem extends ISystem {
 export class CollisionSystem extends System implements ICollisionSystem {
   private collision!: INodeList | null;
 
-  public init(ctx: ICore): void {
-    this.collision = ctx.getNodeList(CollisionNode);
+  /**
+   * @override
+   */
+  public start(core: ICore): void {
+    this.collision = core.getNodeList(CollisionNode);
   }
 
-  public destroy(ctx: ICore): void {
+  /**
+   * @override
+   */
+  public destroy(core: ICore): void {
     this.collision = null;
   }
 }

@@ -3,26 +3,26 @@ import { INodeList } from '@core/node/NodeList';
 import { ISystem, System } from '@core/system/System';
 import { Bind } from '@core/utils/bind';
 
-import { GameStateNode } from 'nodes/GameStateNode';
+import { MazeNode } from 'nodes/MazeNode';
 
-export interface IGameStateSystem extends ISystem {
+export interface IMazeSystem extends ISystem {
 }
 
 @Bind()
-export class GameStateSystem extends System implements IGameStateSystem {
-  private gameState!: INodeList | null;
+export class MazeSystem extends System implements IMazeSystem {
+  private maze!: INodeList | null;
 
   /**
    * @override
    */
   public start(core: ICore): void {
-    this.gameState = core.getNodeList(GameStateNode);
+    this.maze = core.getNodeList(MazeNode);
   }
 
   /**
    * @override
    */
   public destroy(core: ICore): void {
-    this.gameState = null;
+    this.maze = null;
   }
 }

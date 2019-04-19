@@ -17,11 +17,11 @@ import { Bind } from '@core/utils/bind';
 import * as CONSTANTS from '@core/constants';
 
 export interface ICore extends IEventEmitter {
-  appendEntity(entity: IEntity): void;
+  appendEntity(entity: IEntity): this;
   appendSystem(system: ISystem): this;
   getNodeList(node: typeof Node): INodeList;
-  removeEntity(entity: IEntity): void;
-  removeSystem(system: ISystem): void;
+  removeEntity(entity: IEntity): this;
+  removeSystem(system: ISystem): this;
   update(time: number): void;
 }
 
@@ -71,7 +71,7 @@ export class Core extends EventEmitter implements ICore {
   /**
    * Add a entity to the core.
    */
-  public appendEntity(entity: IEntity): void {
+  public appendEntity(entity: IEntity): this {
     if (this.entities.has(entity)) {
       throw new Error(`Entity '${entity.displayName}' is already used by another entity`);
     }
@@ -84,12 +84,14 @@ export class Core extends EventEmitter implements ICore {
     this.nodes.forEach((node) => {
       node.set(entity);
     });
+
+    return this;
   }
 
   /**
    * Remove a entity from the core.
    */
-  public removeEntity(entity: IEntity): void {
+  public removeEntity(entity: IEntity): this {
     entity.off(CONSTANTS.ENTITY_DELETE_COMPONENT_EVENT, this.onEntityDeleteComponent);
     entity.off(CONSTANTS.ENTITY_SET_COMPONENT_EVENT, this.onEntitySetComponent);
 
@@ -98,15 +100,17 @@ export class Core extends EventEmitter implements ICore {
     });
 
     this.entities.delete(entity);
+
+    return this;
   }
 
   /**
    * Add a system to the core.
    */
   public appendSystem(system: ISystem): this {
-    system.init(this);
-
     this.systems.set(system);
+
+    system.start(this);
 
     return this;
   }
@@ -114,9 +118,12 @@ export class Core extends EventEmitter implements ICore {
   /**
    * Remove a system from the core.
    */
-  public removeSystem(system: ISystem): void {
-    this.systems.delete(system);
+  public removeSystem(system: ISystem): this {
     system.destroy(this);
+
+    this.systems.delete(system);
+
+    return this;
   }
 
   /**

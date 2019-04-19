@@ -4,8 +4,8 @@ import { Bind } from '@core/utils/bind';
 export interface ISystem {
   next: this | null;
   previous: this | null;
-  destroy(ctx: ICore): void;
-  init(ctx: ICore): void;
+  destroy(core: ICore): void;
+  start(core: ICore): void;
   update(time: number): void;
 }
 
@@ -24,14 +24,14 @@ export class System implements ISystem {
   /**
    * Called after the system is applied to the core
    */
-  public init(ctx: ICore): void {
+  public start(core: ICore): void {
     //
   }
 
   /**
    * Called after the system is destroyed from the core
    */
-  public destroy(ctx: ICore): void {
+  public destroy(core: ICore): void {
     //
   }
 

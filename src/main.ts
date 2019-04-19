@@ -11,15 +11,22 @@ import { Core, ICore } from '@core/Core';
 import { Entity } from '@core/entity/Entity';
 import { Bind } from '@core/utils/bind';
 
+import { Audio } from 'components/Audio';
 import { Collision } from 'components/Collision';
 import { Dino } from 'components/Dino';
 import { GameState } from 'components/GameState';
+import { Maze } from 'components/Maze';
+import { Motion } from 'components/Motion';
 
 import { DinoView } from 'graphics/DinoView';
+import { MazeView } from 'graphics/MazeView';
 
+import { AudioSystem } from 'systems/AudioSystem';
 import { CollisionSystem } from 'systems/CollisionSystem';
 import { DinoSystem } from 'systems/DinoSystem';
 import { GameStateSystem } from 'systems/GameStateSystem';
+import { MazeSystem } from 'systems/MazeSystem';
+import { MotionSystem } from 'systems/MotionSystem';
 
 interface IWorkbench {
   render(time: number): void;
@@ -70,7 +77,7 @@ class Workbench implements IWorkbench {
 
     this.core = new Core();
 
-    this.scene.background = new THREE.Color(0xffffff);
+    this.scene.fog = new THREE.FogExp2(0xcccccc, 0.0015);
 
     const aspect = window.innerWidth / window.innerHeight;
     const far = 2000;
@@ -85,6 +92,8 @@ class Workbench implements IWorkbench {
 
     this.scene.add(this.camera);
 
+    this.renderer.setClearColor(this.scene.fog.color);
+
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(Workbench.MAX_WIDTH, Workbench.MAX_HEIGHT);
 
@@ -94,7 +103,9 @@ class Workbench implements IWorkbench {
     }
 
     this.appendLight();
-    this.prepare();
+
+    this.appendSystem();
+    this.appendEntity();
 
     ref.appendChild(this.renderer.domElement);
 
@@ -102,24 +113,47 @@ class Workbench implements IWorkbench {
   }
 
   /**
-   * Configure ECS engine.
+   * Configure ECS Systems.
    */
-  private prepare(): void {
+  private appendSystem(): void {
     this.core
       .appendSystem(new GameStateSystem())
       .appendSystem(new CollisionSystem())
+      .appendSystem(new AudioSystem())
+      .appendSystem(new MotionSystem())
+      .appendSystem(new MazeSystem())
       .appendSystem(new DinoSystem());
+  }
 
+  /**
+   * Configure ECS Entity.
+   */
+  private appendEntity(): void {
+    //#region Game.
     const gameEntity = new Entity('game');
-
-    const dino = new DinoView(this.scene);
 
     gameEntity
       .set(new GameState())
       .set(new Collision())
-      .set(new Dino(dino));
+      .set(new Audio())
+      .set(new Motion())
+      .set(new Maze(
+        new MazeView(this.scene),
+      ));
+    //#endregion
 
-    this.core.appendEntity(gameEntity);
+    //#region Dino.
+    const dinoEntity = new Entity('dino');
+
+    dinoEntity
+      .set(new Dino(
+        new DinoView(this.scene),
+      ));
+    //#endregion
+
+    this.core
+      .appendEntity(gameEntity)
+      .appendEntity(dinoEntity);
   }
 
   /**
@@ -130,7 +164,7 @@ class Workbench implements IWorkbench {
     primary.position.set(1, 1, 1);
     this.scene.add(primary);
 
-    const secondary = new THREE.DirectionalLight(0xffffff, .4);
+    const secondary = new THREE.DirectionalLight(0xffffff, 0.4);
     secondary.position.set(1, -1, -1);
     this.scene.add(secondary);
   }

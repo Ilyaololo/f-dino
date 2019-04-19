@@ -12,11 +12,17 @@ export interface IDinoSystem extends ISystem {
 export class DinoSystem extends System implements IDinoSystem {
   private dino!: INodeList | null;
 
-  public init(ctx: ICore): void {
-    this.dino = ctx.getNodeList(DinoNode);
+  /**
+   * @override
+   */
+  public start(core: ICore): void {
+    this.dino = core.getNodeList(DinoNode);
   }
 
-  public destroy(ctx: ICore): void {
+  /**
+   * @override
+   */
+  public destroy(core: ICore): void {
     this.dino = null;
   }
 }

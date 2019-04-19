@@ -60,11 +60,16 @@ export class EntityList implements IEntityList {
   /**
    * Does the entity list have a entity of a particular name.
    */
-  @Memoize()
+  // @Memoize()
   public has(entity: IEntity): boolean {
-    if (this.head) {
-      return this.has(this.head.next!);
+    for (const inode of this) {
+      if (inode === entity) {
+        return true;
+      }
     }
+    // if (this.head) {
+    //   return this.has(this.head.next!);
+    // }
 
     return false;
   }
