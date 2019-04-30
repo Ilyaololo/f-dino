@@ -12,7 +12,7 @@ import { Bind } from '@core/utils/bind';
 import { __COMPONENTS__ } from '@core/utils/define';
 
 export interface INodeManager {
-  nodeList: INodeList;
+  nodeList: INodeList<any>;
   clear(): void;
   delete(entity: IEntity): void;
   set(entity: IEntity): void;
@@ -23,7 +23,7 @@ export class NodeManager implements INodeManager {
   /**
    * Reference.
    */
-  private readonly nodes: INodeList;
+  private readonly nodes: INodeList<any>;
 
   /**
    * Reference.
@@ -59,7 +59,7 @@ export class NodeManager implements INodeManager {
   /**
    * The nodelist managed by this manager.
    */
-  public get nodeList(): INodeList {
+  public get nodeList(): INodeList<any> {
     return this.nodes;
   }
 

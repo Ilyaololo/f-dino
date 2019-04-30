@@ -5,6 +5,7 @@ import { Define } from '@core/utils/define';
 import { Audio, IAudio } from 'components/Audio';
 
 export interface IAudioNode extends INode {
+  audio: IAudio;
 }
 
 @Bind()

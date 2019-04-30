@@ -129,7 +129,7 @@ class Workbench implements IWorkbench {
    * Configure ECS Entity.
    */
   private appendEntity(): void {
-    //#region Game.
+    //#region Game Entity.
     const gameEntity = new Entity('game');
 
     gameEntity
@@ -142,7 +142,7 @@ class Workbench implements IWorkbench {
       ));
     //#endregion
 
-    //#region Dino.
+    //#region Dino Entity.
     const dinoEntity = new Entity('dino');
 
     dinoEntity

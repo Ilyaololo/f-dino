@@ -1,7 +1,7 @@
 import { IEntity } from '@core/entity/Entity';
 import { Bind } from '@core/utils/bind';
 
-export interface INode {
+export interface INode<> {
   entity: IEntity | null;
   next: this | null;
   previous: this | null;

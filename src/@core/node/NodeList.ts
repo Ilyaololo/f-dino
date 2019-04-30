@@ -4,32 +4,32 @@ import { Bind } from '@core/utils/bind';
 
 import * as CONSTANTS from '@core/constants';
 
-export interface INodeList extends EventEmitter {
-  head: INode | null;
-  tail: INode | null;
-  [Symbol.iterator](): Iterator<INode>;
+export interface INodeList<T> extends EventEmitter {
+  head: T & INode | null;
+  tail: T & INode | null;
+  [Symbol.iterator](): Iterator<T & INode>;
   clear(): void;
-  delete(node: INode): void;
-  forEach(cb: (node: INode) => void): void;
-  set(node: INode): void;
+  delete(node: T & INode): void;
+  forEach(cb: (node: T & INode) => void): void;
+  set(node: T & INode): void;
 }
 
 @Bind()
-export class NodeList extends EventEmitter implements INodeList {
+export class NodeList<T = any> extends EventEmitter implements INodeList<T> {
   /**
    * Reference on the first item in the node list, or null if the list contains no nodes.
    */
-  public head: INode | null = null;
+  public head: T & INode | null = null;
 
   /**
    * Reference on the last item in the node list, or null if the list contains no nodes.
    */
-  public tail: INode | null = null;
+  public tail: T & INode | null = null;
 
   /**
    * Iterable method.
    */
-  public [Symbol.iterator](): Iterator<INode> & { __value: INode } {
+  public [Symbol.iterator](): Iterator<T & INode> & { __value: T & INode } {
     const itr: any = {};
 
     // initial loop value
@@ -60,7 +60,7 @@ export class NodeList extends EventEmitter implements INodeList {
   /**
    * Remove a node from the node list.
    */
-  public delete(node: INode): void {
+  public delete(node: T & INode): void {
     if (this.head === node) {
       this.head = this.head.next;
     }
@@ -83,7 +83,7 @@ export class NodeList extends EventEmitter implements INodeList {
   /**
    * Add a node to the node list.
    */
-  public set(node: INode): void {
+  public set(node: T & INode): void {
     if (!this.head || !this.tail) {
       this.head = node;
       this.tail = node;
@@ -105,7 +105,7 @@ export class NodeList extends EventEmitter implements INodeList {
   /**
    * Performs the specified action for each element in an node list.
    */
-  public forEach(cb: (node: INode) => void): void {
+  public forEach(cb: (node: T & INode) => void): void {
     for (const node of this) {
       cb(node);
     }

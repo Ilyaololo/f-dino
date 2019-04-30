@@ -5,6 +5,7 @@ import { Define } from '@core/utils/define';
 import { IMotion, Motion } from 'components/Motion';
 
 export interface IMotionNode extends INode {
+  motion: IMotion;
 }
 
 @Bind()

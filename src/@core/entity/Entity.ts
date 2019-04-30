@@ -4,7 +4,7 @@ import { Bind } from '@core/utils/bind';
 
 import * as CONSTANTS from '@core/constants';
 
-export interface IEntity extends EventEmitter {
+export interface IEntity<T = any> extends EventEmitter {
   displayName: string;
   next: this | null;
   previous: this | null;

@@ -5,6 +5,7 @@ import { Define } from '@core/utils/define';
 import { IMaze, Maze } from 'components/Maze';
 
 export interface IMazeNode extends INode {
+  maze: IMaze;
 }
 
 @Bind()

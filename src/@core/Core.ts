@@ -19,7 +19,7 @@ import * as CONSTANTS from '@core/constants';
 export interface ICore extends IEventEmitter {
   appendEntity(entity: IEntity): this;
   appendSystem(system: ISystem): this;
-  getNodeList(node: typeof Node): INodeList;
+  getNodeList<T>(node: typeof Node): INodeList<T>;
   removeEntity(entity: IEntity): this;
   removeSystem(system: ISystem): this;
   update(time: number): void;
@@ -129,7 +129,7 @@ export class Core extends EventEmitter implements ICore {
   /**
    * Get a collection of nodes from the engine, based on the type of the node required.
    */
-  public getNodeList(node: typeof Node): INodeList {
+  public getNodeList<T>(node: typeof Node): INodeList<T> {
     if (this.nodes.has(node)) {
       return this.nodes.get(node)!.nodeList;
     }

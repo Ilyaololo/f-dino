@@ -5,6 +5,7 @@ import { Define } from '@core/utils/define';
 import { GameState, IGameState } from 'components/GameState';
 
 export interface IGameStateNode extends INode {
+  gameState: IGameState;
 }
 
 @Bind()

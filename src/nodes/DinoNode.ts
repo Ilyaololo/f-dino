@@ -5,10 +5,11 @@ import { Define } from '@core/utils/define';
 import { Dino, IDino } from 'components/Dino';
 
 export interface IDinoNode extends INode {
+  dino: IDino;
 }
 
 @Bind()
 export class DinoNode extends Node implements IDinoNode {
   @Define(Dino)
-  public readonly collision!: IDino;
+  public readonly dino!: IDino;
 }
