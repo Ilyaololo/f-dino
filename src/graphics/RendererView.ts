@@ -40,7 +40,9 @@ export class RendererView implements IRendererView {
 
     this.renderer = new WebGLRenderer();
 
-    this.renderer.setClearColor(this.scene.fog!.color);
+    if (this.scene.fog) {
+      this.renderer.setClearColor(this.scene.fog.color);
+    }
 
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(RendererView.MAX_WIDTH, RendererView.MAX_HEIGHT);
