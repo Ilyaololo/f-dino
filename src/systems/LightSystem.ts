@@ -3,27 +3,27 @@ import { INodeList } from '@core/node/NodeList';
 import { ISystem, System } from '@core/system/System';
 import { Bind } from '@core/utils/bind';
 
-import { IMazeNode, MazeNode } from 'nodes/MazeNode';
+import { ILightNode, LightNode } from 'nodes/LightNode';
 import { ISceneNode, SceneNode } from 'nodes/SceneNode';
 
-export interface IMazeSystem extends ISystem {
+export interface ILightSystem extends ISystem {
 }
 
 @Bind()
-export class MazeSystem extends System implements IMazeSystem {
-  private mazeNodeList: INodeList<IMazeNode> | null = null;
+export class LightSystem extends System implements ILightSystem {
+  private lightNodeList: INodeList<ILightNode> | null = null;
   private sceneNodeList: INodeList<ISceneNode> | null = null;
 
   /**
    * @override
    */
   public start(core: ICore): void {
-    this.mazeNodeList = core.getNodeList<IMazeNode>(MazeNode);
+    this.lightNodeList = core.getNodeList<ILightNode>(LightNode);
     this.sceneNodeList = core.getNodeList<ISceneNode>(SceneNode);
 
-    if (this.mazeNodeList && this.mazeNodeList.head) {
+    if (this.lightNodeList && this.lightNodeList.head) {
       if (this.sceneNodeList && this.sceneNodeList.head) {
-        this.mazeNodeList.head.maze.mazeView.start(this.sceneNodeList.head.scene.sceneView.scene);
+        this.lightNodeList.head.light.lightView.start(this.sceneNodeList.head.scene.sceneView.scene);
       }
     }
   }
@@ -32,7 +32,7 @@ export class MazeSystem extends System implements IMazeSystem {
    * @override
    */
   public destroy(core: ICore): void {
-    this.mazeNodeList = null;
+    this.lightNodeList = null;
     this.sceneNodeList = null;
   }
 }

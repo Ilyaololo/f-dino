@@ -10,19 +10,19 @@ export interface IDinoSystem extends ISystem {
 
 @Bind()
 export class DinoSystem extends System implements IDinoSystem {
-  private dino!: INodeList<IDinoNode> | null;
+  private dinoNodeList: INodeList<IDinoNode> | null = null;
 
   /**
    * @override
    */
   public start(core: ICore): void {
-    this.dino = core.getNodeList<IDinoNode>(DinoNode);
+    this.dinoNodeList = core.getNodeList<IDinoNode>(DinoNode);
   }
 
   /**
    * @override
    */
   public destroy(core: ICore): void {
-    this.dino = null;
+    this.dinoNodeList = null;
   }
 }

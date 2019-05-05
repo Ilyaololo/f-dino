@@ -1,5 +1,6 @@
 import path from 'path';
 
+import webpack from 'webpack';
 import { Config } from 'webpack-config';
 
 import CleanWebpackPlugin from 'clean-webpack-plugin';
@@ -137,10 +138,27 @@ const configuration = new Config()
 
       new HardSourceWebpackPlugin(),
 
+      new webpack.DefinePlugin([
+        'CATCHOFFSET',
+        'DINOCOLLISIONDISTANCE',
+        'DINOSCALE',
+        'DINOSPEED',
+        'PLAYERCOLLISIONDISTANCE',
+        'PLAYERSPEED',
+        'UNITHEIGHT',
+        'UNITWIDTH',
+      ]),
+
       new HtmlWebpackPlugin({
         inject: true,
         template: path.resolve('public', 'index.html'),
       }),
+
+      new CopyWebpackPlugin([{
+        force: true,
+        from: path.resolve('public', 'favicon.png'),
+        to: path.resolve('dist'),
+      }]),
 
       new CopyWebpackPlugin([{
         force: true,

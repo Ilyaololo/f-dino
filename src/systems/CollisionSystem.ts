@@ -10,19 +10,19 @@ export interface ICollisionSystem extends ISystem {
 
 @Bind()
 export class CollisionSystem extends System implements ICollisionSystem {
-  private collision!: INodeList<ICollisionNode> | null;
+  private collisionNodeList: INodeList<ICollisionNode> | null = null;
 
   /**
    * @override
    */
   public start(core: ICore): void {
-    this.collision = core.getNodeList<ICollisionNode>(CollisionNode);
+    this.collisionNodeList = core.getNodeList<ICollisionNode>(CollisionNode);
   }
 
   /**
    * @override
    */
   public destroy(core: ICore): void {
-    this.collision = null;
+    this.collisionNodeList = null;
   }
 }

@@ -1,8 +1,6 @@
 import 'core-js';
 import 'reflect-metadata';
 
-import * as THREE from 'three';
-
 import { Container } from 'inversify';
 
 import { configureService } from 'services';
@@ -11,39 +9,42 @@ import { Core, ICore } from '@core/Core';
 import { Entity } from '@core/entity/Entity';
 import { Bind } from '@core/utils/bind';
 
-import { Audio } from 'components/Audio';
+import { Camera } from 'components/Camera';
 import { Collision } from 'components/Collision';
 import { Dino } from 'components/Dino';
 import { GameState } from 'components/GameState';
+import { Light } from 'components/Light';
 import { Maze } from 'components/Maze';
 import { Motion } from 'components/Motion';
+import { Renderer } from 'components/Renderer';
+import { Scene } from 'components/Scene';
+import { Sound } from 'components/Sound';
 
+import { CameraView } from 'graphics/CameraView';
 import { DinoView } from 'graphics/DinoView';
+import { LightView } from 'graphics/LightView';
 import { MazeView } from 'graphics/MazeView';
+import { RendererView } from 'graphics/RendererView';
+import { SceneView } from 'graphics/SceneView';
 
-import { AudioSystem } from 'systems/AudioSystem';
+import { CameraSystem } from 'systems/CameraSystem';
 import { CollisionSystem } from 'systems/CollisionSystem';
 import { DinoSystem } from 'systems/DinoSystem';
 import { GameStateSystem } from 'systems/GameStateSystem';
+import { LightSystem } from 'systems/LightSystem';
 import { MazeSystem } from 'systems/MazeSystem';
 import { MotionSystem } from 'systems/MotionSystem';
+import { RendererSystem } from 'systems/RendererSystem';
+import { SceneSystem } from 'systems/SceneSystem';
+import { SoundSystem } from 'systems/SoundSystem';
 
 interface IWorkbench {
+  load(): void;
   render(time: number): void;
 }
 
 @Bind()
 class Workbench implements IWorkbench {
-  /**
-   * Max height of workbench.
-   */
-  private static readonly MAX_HEIGHT: number = window.innerHeight;
-
-  /**
-   * Max width of workbench.
-   */
-  private static readonly MAX_WIDTH: number = window.innerWidth;
-
   /**
    * Core reference.
    */
@@ -54,136 +55,93 @@ class Workbench implements IWorkbench {
    */
   private readonly container: Container;
 
-  /**
-   * Scene perspective camera.
-   */
-  private readonly camera: THREE.PerspectiveCamera;
-
-  /**
-   * Scene WebGL renderer.
-   */
-  private readonly renderer: THREE.WebGLRenderer;
-
-  /**
-   * Scene reference.
-   */
-  private readonly scene: THREE.Scene;
-
   constructor() {
     this.container = configureService();
 
-    this.renderer = new THREE.WebGLRenderer();
-    this.scene = new THREE.Scene();
-
     this.core = new Core();
-
-    this.scene.fog = new THREE.FogExp2(0xcccccc, 0.0015);
-
-    const aspect = window.innerWidth / window.innerHeight;
-    const far = 2000;
-    const fov = 60;
-    const near = 1;
-
-    this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-
-    this.camera.position.y = 20;
-    this.camera.position.x = 0;
-    this.camera.position.z = 0;
-
-    this.scene.add(this.camera);
-
-    this.renderer.setClearColor(this.scene.fog.color);
-
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(Workbench.MAX_WIDTH, Workbench.MAX_HEIGHT);
-
-    const ref = document.getElementById('container');
-    if (!ref) {
-      throw new Error('Can\'t find DOM element #container');
-    }
-
-    this.appendLight();
-
-    this.appendSystem();
-    this.appendEntity();
-
-    ref.appendChild(this.renderer.domElement);
-
-    window.addEventListener('resize', this.onResize);
   }
 
   /**
    * Configure ECS Systems.
    */
   private appendSystem(): void {
-    this.core
-      .appendSystem(new GameStateSystem())
-      .appendSystem(new CollisionSystem())
-      .appendSystem(new AudioSystem())
-      .appendSystem(new MotionSystem())
-      .appendSystem(new MazeSystem())
-      .appendSystem(new DinoSystem());
+    this.core.appendSystem(new SceneSystem());
+
+    this.core.appendSystem(new CameraSystem());
+
+    this.core.appendSystem(new LightSystem());
+
+    this.core.appendSystem(new GameStateSystem());
+
+    this.core.appendSystem(new CollisionSystem());
+
+    this.core.appendSystem(new SoundSystem());
+
+    this.core.appendSystem(new MotionSystem());
+
+    this.core.appendSystem(new MazeSystem());
+
+    this.core.appendSystem(new DinoSystem());
+
+    this.core.appendSystem(new RendererSystem());
   }
 
   /**
    * Configure ECS Entity.
    */
   private appendEntity(): void {
-    //#region Game Entity.
     const gameEntity = new Entity('game');
 
-    gameEntity
-      .set(new GameState())
-      .set(new Collision())
-      .set(new Audio())
-      .set(new Motion())
-      .set(new Maze(
-        new MazeView(this.scene),
-      ));
-    //#endregion
+    gameEntity.set(new Scene(
+      new SceneView(),
+    ));
 
-    //#region Dino Entity.
+    gameEntity.set(new Camera(
+      new CameraView(),
+    ));
+
+    gameEntity.set(new Light(
+      new LightView(),
+    ));
+
+    gameEntity.set(new GameState());
+
+    gameEntity.set(new Collision());
+
+    gameEntity.set(new Sound());
+
+    gameEntity.set(new Motion());
+
+    gameEntity.set(new Maze(
+      new MazeView(),
+    ));
+
+    gameEntity.set(new Renderer(
+      new RendererView(),
+    ));
+
+    this.core.appendEntity(gameEntity);
+
     const dinoEntity = new Entity('dino');
 
-    dinoEntity
-      .set(new Dino(
-        new DinoView(this.scene),
-      ));
-    //#endregion
+    dinoEntity.set(new Dino(
+      new DinoView(),
+    ));
 
-    this.core
-      .appendEntity(gameEntity)
-      .appendEntity(dinoEntity);
+    this.core.appendEntity(dinoEntity);
   }
 
-  /**
-   * Append light to the scene.
-   */
-  private appendLight(): void {
-    const primary = new THREE.DirectionalLight(0xffffff);
-    primary.position.set(1, 1, 1);
-    this.scene.add(primary);
+  public load(): void {
+    this.appendEntity();
+    this.appendSystem();
 
-    const secondary = new THREE.DirectionalLight(0xffffff, 0.4);
-    secondary.position.set(1, -1, -1);
-    this.scene.add(secondary);
-  }
-
-  /**
-   * Resize event handler.
-   */
-  private onResize(): void {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
-    this.camera.updateProjectionMatrix();
-
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.render(0);
   }
 
   /**
    * Main loop.
    */
   public render(time: number): void {
-    this.renderer.render(this.scene, this.camera);
     this.core.update(time);
 
     requestAnimationFrame(this.render);
@@ -192,4 +150,6 @@ class Workbench implements IWorkbench {
 
 const workbench: IWorkbench = new Workbench();
 
-workbench.render(0);
+document.addEventListener('DOMContentLoaded', workbench.load, {
+  passive: false,
+});

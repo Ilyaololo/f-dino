@@ -10,19 +10,19 @@ export interface IGameStateSystem extends ISystem {
 
 @Bind()
 export class GameStateSystem extends System implements IGameStateSystem {
-  private gameState!: INodeList<IGameStateNode> | null;
+  private gameStateNodeList: INodeList<IGameStateNode> | null = null;
 
   /**
    * @override
    */
   public start(core: ICore): void {
-    this.gameState = core.getNodeList<IGameStateNode>(GameStateNode);
+    this.gameStateNodeList = core.getNodeList<IGameStateNode>(GameStateNode);
   }
 
   /**
    * @override
    */
   public destroy(core: ICore): void {
-    this.gameState = null;
+    this.gameStateNodeList = null;
   }
 }

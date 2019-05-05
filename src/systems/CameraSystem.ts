@@ -3,27 +3,27 @@ import { INodeList } from '@core/node/NodeList';
 import { ISystem, System } from '@core/system/System';
 import { Bind } from '@core/utils/bind';
 
-import { IMazeNode, MazeNode } from 'nodes/MazeNode';
+import { CameraNode, ICameraNode } from 'nodes/CameraNode';
 import { ISceneNode, SceneNode } from 'nodes/SceneNode';
 
-export interface IMazeSystem extends ISystem {
+export interface ICameraSystem extends ISystem {
 }
 
 @Bind()
-export class MazeSystem extends System implements IMazeSystem {
-  private mazeNodeList: INodeList<IMazeNode> | null = null;
+export class CameraSystem extends System implements ICameraSystem {
+  private cameraNodeList: INodeList<ICameraNode> | null = null;
   private sceneNodeList: INodeList<ISceneNode> | null = null;
 
   /**
    * @override
    */
   public start(core: ICore): void {
-    this.mazeNodeList = core.getNodeList<IMazeNode>(MazeNode);
+    this.cameraNodeList = core.getNodeList<ICameraNode>(CameraNode);
     this.sceneNodeList = core.getNodeList<ISceneNode>(SceneNode);
 
-    if (this.mazeNodeList && this.mazeNodeList.head) {
+    if (this.cameraNodeList && this.cameraNodeList.head) {
       if (this.sceneNodeList && this.sceneNodeList.head) {
-        this.mazeNodeList.head.maze.mazeView.start(this.sceneNodeList.head.scene.sceneView.scene);
+        this.cameraNodeList.head.camera.cameraView.start(this.sceneNodeList.head.scene.sceneView.scene);
       }
     }
   }
@@ -32,7 +32,7 @@ export class MazeSystem extends System implements IMazeSystem {
    * @override
    */
   public destroy(core: ICore): void {
-    this.mazeNodeList = null;
+    this.cameraNodeList = null;
     this.sceneNodeList = null;
   }
 }

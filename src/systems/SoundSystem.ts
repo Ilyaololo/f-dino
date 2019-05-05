@@ -3,26 +3,26 @@ import { INodeList } from '@core/node/NodeList';
 import { ISystem, System } from '@core/system/System';
 import { Bind } from '@core/utils/bind';
 
-import { AudioNode, IAudioNode } from 'nodes/AudioNode';
+import { ISoundNode, SoundNode } from 'nodes/SoundNode';
 
-export interface IAudioSystem extends ISystem {
+export interface ISoundSystem extends ISystem {
 }
 
 @Bind()
-export class AudioSystem extends System implements IAudioSystem {
-  private audio!: INodeList<IAudioNode> | null;
+export class SoundSystem extends System implements ISoundSystem {
+  private soundNodeList: INodeList<ISoundNode> | null = null;
 
   /**
    * @override
    */
   public start(core: ICore): void {
-    this.audio = core.getNodeList<IAudioNode>(AudioNode);
+    this.soundNodeList = core.getNodeList<ISoundNode>(SoundNode);
   }
 
   /**
    * @override
    */
   public destroy(core: ICore): void {
-    this.audio = null;
+    this.soundNodeList = null;
   }
 }

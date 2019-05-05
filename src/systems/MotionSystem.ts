@@ -10,28 +10,30 @@ export interface IMotionSystem extends ISystem {
 
 @Bind()
 export class MotionSystem extends System implements IMotionSystem {
-  private motion!: INodeList<IMotionNode> | null;
+  private motionNodeList: INodeList<IMotionNode> | null = null;
 
   /**
    * @override
    */
   public start(core: ICore): void {
-    this.motion = core.getNodeList<IMotionNode>(MotionNode);
+    this.motionNodeList = core.getNodeList<IMotionNode>(MotionNode);
   }
 
   /**
    * @override
    */
   public destroy(core: ICore): void {
-    this.motion = null;
+    this.motionNodeList = null;
   }
 
   /**
    * @override
    */
   public update(time: number): void {
-    this.motion!.forEach((node) => {
-      //
-    });
+    if (this.motionNodeList) {
+      this.motionNodeList.forEach((node) => {
+        //
+      });
+    }
   }
 }

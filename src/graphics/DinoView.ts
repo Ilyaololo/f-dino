@@ -11,7 +11,7 @@ export interface IDinoView {
 @Bind()
 export class DinoView implements IDinoView {
   constructor(
-    private readonly scene: Scene,
+    // private readonly scene: Scene,
   ) {
     // this.geometry = payload.geometry;
     // this.materials = payload.materials;
