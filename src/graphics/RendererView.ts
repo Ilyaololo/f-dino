@@ -1,4 +1,4 @@
-import { FogExp2, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
+import { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 
 import { Bind } from '@core/utils/bind';
 
@@ -11,14 +11,34 @@ export interface IRendererView {
 
 @Bind()
 export class RendererView implements IRendererView {
+  /**
+   * WebGL renderer reference.
+   */
   public renderer!: WebGLRenderer;
 
+  /**
+   * Max available device height.
+   */
   private static readonly MAX_HEIGHT: number = window.screen.availHeight;
+
+  /**
+   * Max available device width.
+   */
   private static readonly MAX_WIDTH: number = window.screen.availWidth;
 
+  /**
+   * DOM element reference.
+   */
   private readonly innerRef: HTMLElement | null = document.getElementById('container');
 
+  /**
+   * Reference of scene camera
+   */
   private camera!: PerspectiveCamera;
+
+  /**
+   * Scene reference.
+   */
   private scene!: Scene;
 
   /**
@@ -40,6 +60,9 @@ export class RendererView implements IRendererView {
 
     this.renderer = new WebGLRenderer();
 
+    /**
+     * @see SceneView#start
+     */
     if (this.scene.fog) {
       this.renderer.setClearColor(this.scene.fog.color);
     }
