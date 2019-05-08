@@ -10,7 +10,7 @@ export interface IPlayer extends IComponents {
 
 @Bind()
 export class Player extends Components implements IPlayer {
-  public readonly displayName: string = 'player';
+  public readonly displayName: string = 'playerComponent';
 
   /**
    * Reference.

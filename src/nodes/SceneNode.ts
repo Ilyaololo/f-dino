@@ -5,11 +5,11 @@ import { Define } from '@core/utils/define';
 import { IScene, Scene } from 'components/Scene';
 
 export interface ISceneNode extends INode {
-  scene: IScene;
+  sceneComponent: IScene;
 }
 
 @Bind()
 export class SceneNode extends Node implements ISceneNode {
   @Define(Scene)
-  public readonly scene!: IScene;
+  public readonly sceneComponent!: IScene;
 }

@@ -9,7 +9,7 @@ export interface ILight extends IComponents {
 
 @Bind()
 export class Light extends Components implements ILight {
-  public readonly displayName: string = 'light';
+  public readonly displayName: string = 'lightComponent';
 
   constructor(
     public readonly lightView: ILightView,

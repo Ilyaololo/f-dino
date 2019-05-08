@@ -5,11 +5,11 @@ import { Define } from '@core/utils/define';
 import { IRenderer, Renderer } from 'components/Renderer';
 
 export interface IRendererNode extends INode {
-  renderer: IRenderer;
+  rendererComponent: IRenderer;
 }
 
 @Bind()
 export class RendererNode extends Node implements IRendererNode {
   @Define(Renderer)
-  public readonly renderer!: IRenderer;
+  public readonly rendererComponent!: IRenderer;
 }

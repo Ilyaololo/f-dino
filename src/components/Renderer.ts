@@ -9,7 +9,7 @@ export interface IRenderer extends IComponents {
 
 @Bind()
 export class Renderer extends Components implements IRenderer {
-  public readonly displayName: string = 'renderer';
+  public readonly displayName: string = 'rendererComponent';
 
   constructor(
     public readonly rendererView: IRendererView,

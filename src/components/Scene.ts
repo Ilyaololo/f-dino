@@ -9,7 +9,7 @@ export interface IScene extends IComponents {
 
 @Bind()
 export class Scene extends Components implements IScene {
-  public readonly displayName: string = 'scene';
+  public readonly displayName: string = 'sceneComponent';
 
   constructor(
     public readonly sceneView: ISceneView,

@@ -5,11 +5,11 @@ import { Define } from '@core/utils/define';
 import { IMaze, Maze } from 'components/Maze';
 
 export interface IMazeNode extends INode {
-  maze: IMaze;
+  mazeComponent: IMaze;
 }
 
 @Bind()
 export class MazeNode extends Node implements IMazeNode {
   @Define(Maze)
-  public readonly maze!: IMaze;
+  public readonly mazeComponent!: IMaze;
 }

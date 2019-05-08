@@ -94,7 +94,7 @@ const configuration = new Config()
     },
 
     resolve: {
-      extensions: ['.js', '.ts', '.json'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
 
       modules: [
         'node_modules',

@@ -5,11 +5,11 @@ import { Define } from '@core/utils/define';
 import { ISound, Sound } from 'components/Sound';
 
 export interface ISoundNode extends INode {
-  sound: ISound;
+  soundComponent: ISound;
 }
 
 @Bind()
 export class SoundNode extends Node implements ISoundNode {
   @Define(Sound)
-  public readonly sound!: ISound;
+  public readonly soundComponent!: ISound;
 }

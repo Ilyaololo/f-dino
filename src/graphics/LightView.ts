@@ -3,24 +3,20 @@ import { DirectionalLight, Scene } from 'three';
 import { Bind } from '@core/utils/bind';
 
 export interface ILightView {
-  start(scene: Scene): void;
+  primary: DirectionalLight;
+  secondary: DirectionalLight;
 }
 
 @Bind()
 export class LightView implements ILightView {
-  private scene!: Scene;
+  public readonly primary: DirectionalLight;
+  public readonly secondary: DirectionalLight;
 
-  public start(scene: Scene): void {
-    this.scene = scene;
+  constructor() {
+    this.primary = new DirectionalLight(0xffffff);
+    this.primary.position.set(1, 1, 1);
 
-    const primary = new DirectionalLight(0xffffff);
-    primary.position.set(1, 1, 1);
-
-    this.scene.add(primary);
-
-    const secondary = new DirectionalLight(0xffffff, 0.4);
-    secondary.position.set(1, -1, -1);
-
-    this.scene.add(secondary);
+    this.secondary = new DirectionalLight(0xffffff, 0.4);
+    this.secondary.position.set(1, -1, -1);
   }
 }

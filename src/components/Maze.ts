@@ -9,7 +9,7 @@ export interface IMaze extends IComponents {
 
 @Bind()
 export class Maze extends Components implements IMaze {
-  public readonly displayName: string = 'maze';
+  public readonly displayName: string = 'mazeComponent';
 
   constructor(
     public readonly mazeView: IMazeView,

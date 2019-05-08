@@ -5,11 +5,11 @@ import { Bind } from '@core/utils/bind';
 
 import { IPlayerNode, PlayerNode } from 'nodes/PlayerNode';
 
-export interface IPlayerSystem extends ISystem {
+export interface IMovePlayerSystem extends ISystem {
 }
 
 @Bind()
-export class PlayerSystem extends System implements IPlayerSystem {
+export class MovePlayerSystem extends System implements IMovePlayerSystem {
   private playerNodeList: INodeList<IPlayerNode> | null = null;
 
   /**
@@ -17,20 +17,12 @@ export class PlayerSystem extends System implements IPlayerSystem {
    */
   public start(core: ICore): void {
     this.playerNodeList = core.getNodeList<IPlayerNode>(PlayerNode);
-
-    if (this.playerNodeList && this.playerNodeList.head) {
-      this.playerNodeList.head.player.playerView.start();
-    }
   }
 
   /**
    * @override
    */
   public destroy(core: ICore): void {
-    if (this.playerNodeList && this.playerNodeList.head) {
-      this.playerNodeList.head.player.playerView.destroy();
-    }
-
     this.playerNodeList = null;
   }
 
@@ -38,8 +30,6 @@ export class PlayerSystem extends System implements IPlayerSystem {
    * @override
    */
   public update(time: number): void {
-    if (this.playerNodeList && this.playerNodeList.head) {
-      this.playerNodeList.head.player.playerView.update();
-    }
+    //
   }
 }

@@ -6,5 +6,5 @@ export interface ISound extends IComponents {
 
 @Bind()
 export class Sound extends Components implements ISound {
-  public readonly displayName: string = 'sound';
+  public readonly displayName: string = 'soundComponent';
 }

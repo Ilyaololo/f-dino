@@ -6,16 +6,16 @@ import { deg } from '@core/utils/deg';
 import { UNITHEIGHT, UNITWIDTH } from 'configs';
 
 export interface IMazeView {
-  start(scene: Scene): void;
+  maze: Mesh[];
+  ground: Mesh;
 }
 
 @Bind()
 export class MazeView implements IMazeView {
-  private scene!: Scene;
+  public readonly maze: Mesh[] = [];
+  public readonly ground: Mesh;
 
-  public start(scene: Scene): void {
-    this.scene = scene;
-
+  constructor() {
     const map = [
       [0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0],
       [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0],
@@ -65,8 +65,7 @@ export class MazeView implements IMazeView {
           cube.position.y = heightOffset;
           cube.position.x = (j - totalCubesWide / 2) * UNITWIDTH + widthOffset;
 
-          // Add the cube
-          this.scene.add(cube);
+          this.maze.push(cube);
         }
       }
     }
@@ -81,11 +80,9 @@ export class MazeView implements IMazeView {
     });
 
     // Create the ground and rotate it flat
-    const ground = new Mesh(groundGeo, groundMat);
+    this.ground = new Mesh(groundGeo, groundMat);
 
-    ground.position.set(0, 1, 0);
-    ground.rotation.x = deg(90);
-
-    this.scene.add(ground);
+    this.ground.position.set(0, 1, 0);
+    this.ground.rotation.x = deg(90);
   }
 }

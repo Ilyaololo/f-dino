@@ -5,11 +5,11 @@ import { Define } from '@core/utils/define';
 import { IPlayer, Player } from 'components/Player';
 
 export interface IPlayerNode extends INode {
-  player: IPlayer;
+  playerComponent: IPlayer;
 }
 
 @Bind()
 export class PlayerNode extends Node implements IPlayerNode {
   @Define(Player)
-  public readonly player!: IPlayer;
+  public readonly playerComponent!: IPlayer;
 }

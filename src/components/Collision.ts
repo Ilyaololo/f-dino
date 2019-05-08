@@ -6,5 +6,5 @@ export interface ICollision extends IComponents {
 
 @Bind()
 export class Collision extends Components implements ICollision {
-  public readonly displayName: string = 'collision';
+  public readonly displayName: string = 'collisionComponent';
 }

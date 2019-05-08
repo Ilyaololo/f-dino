@@ -9,7 +9,7 @@ export interface ICamera extends IComponents {
 
 @Bind()
 export class Camera extends Components implements ICamera {
-  public readonly displayName: string = 'camera';
+  public readonly displayName: string = 'cameraComponent';
 
   constructor(
     public readonly cameraView: ICameraView,

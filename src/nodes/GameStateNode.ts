@@ -5,11 +5,11 @@ import { Define } from '@core/utils/define';
 import { GameState, IGameState } from 'components/GameState';
 
 export interface IGameStateNode extends INode {
-  gameState: IGameState;
+  gameStateComponent: IGameState;
 }
 
 @Bind()
 export class GameStateNode extends Node implements IGameStateNode {
   @Define(GameState)
-  public readonly gameState!: IGameState;
+  public readonly gameStateComponent!: IGameState;
 }

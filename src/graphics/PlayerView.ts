@@ -3,24 +3,13 @@ import { Clock } from 'three';
 import { Bind } from '@core/utils/bind';
 
 export interface IPlayerView {
-  destroy(): void;
-  start(): void;
-  update(): void;
 }
 
 @Bind()
 export class PlayerView implements IPlayerView {
-  private clock!: Clock;
+  private readonly clock: Clock;
 
-  public start(): void {
+  constructor() {
     this.clock = new Clock();
-  }
-
-  public destroy(): void {
-    //
-  }
-
-  public update(): void {
-    const delta = this.clock.getDelta();
   }
 }

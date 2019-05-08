@@ -5,11 +5,11 @@ import { Define } from '@core/utils/define';
 import { Camera, ICamera } from 'components/Camera';
 
 export interface ICameraNode extends INode {
-  camera: ICamera;
+  cameraComponent: ICamera;
 }
 
 @Bind()
 export class CameraNode extends Node implements ICameraNode {
   @Define(Camera)
-  public readonly camera!: ICamera;
+  public readonly cameraComponent!: ICamera;
 }
