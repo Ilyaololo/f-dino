@@ -34,43 +34,53 @@ export class RendererSystem extends System implements IRendererSystem {
     this.sceneNodeList = core.getNodeList<ISceneNode>(SceneNode);
 
     if (this.sceneNodeList && this.sceneNodeList.head) {
+      const sceneNode = this.sceneNodeList.head;
+
       // Add fog to the scene
       if (this.rendererNodeList && this.rendererNodeList.head) {
-        if (this.sceneNodeList.head.sceneComponent.sceneView.scene.fog) {
-          this.rendererNodeList.head.rendererComponent.rendererView.renderer.setClearColor(
-            this.sceneNodeList.head.sceneComponent.sceneView.scene.fog.color,
+        const rendererNode = this.rendererNodeList.head;
+
+        if (sceneNode.sceneComponent.sceneView.scene.fog) {
+          rendererNode.rendererComponent.rendererView.renderer.setClearColor(
+            sceneNode.sceneComponent.sceneView.scene.fog.color,
           );
         }
       }
 
       // Add camera to the scene
       if (this.cameraNodeList && this.cameraNodeList.head) {
-        this.sceneNodeList.head.sceneComponent.sceneView.scene.add(
-          this.cameraNodeList.head.cameraComponent.cameraView.camera,
+        const cameraNode = this.cameraNodeList.head;
+
+        sceneNode.sceneComponent.sceneView.scene.add(
+          cameraNode.cameraComponent.cameraView.camera,
         );
       }
 
       // Add light to the scene
       if (this.lightNodeList && this.lightNodeList.head) {
-        this.sceneNodeList.head.sceneComponent.sceneView.scene.add(
-          this.lightNodeList.head.lightComponent.lightView.primary,
+        const lightNode = this.lightNodeList.head;
+
+        sceneNode.sceneComponent.sceneView.scene.add(
+          lightNode.lightComponent.lightView.primary,
         );
 
-        this.sceneNodeList.head.sceneComponent.sceneView.scene.add(
-          this.lightNodeList.head.lightComponent.lightView.secondary,
+        sceneNode.sceneComponent.sceneView.scene.add(
+          lightNode.lightComponent.lightView.secondary,
         );
       }
 
       // Add maze to the scene
       if (this.mazeNodeList && this.mazeNodeList.head) {
+        const mazeNode = this.mazeNodeList.head;
+
         // cube
-        this.mazeNodeList.head.mazeComponent.mazeView.maze.forEach((cube) => {
-          this.sceneNodeList!.head!.sceneComponent.sceneView.scene.add(cube);
+        mazeNode.mazeComponent.mazeView.maze.forEach((cube) => {
+          sceneNode.sceneComponent.sceneView.scene.add(cube);
         });
 
         // ground
-        this.sceneNodeList.head.sceneComponent.sceneView.scene.add(
-          this.mazeNodeList.head.mazeComponent.mazeView.ground,
+        sceneNode.sceneComponent.sceneView.scene.add(
+          mazeNode.mazeComponent.mazeView.ground,
         );
       }
     }

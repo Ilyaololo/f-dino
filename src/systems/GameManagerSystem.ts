@@ -39,12 +39,14 @@ export class GameManagerSystem extends System implements IGameManagerSystem {
    */
   public update(time: number): void {
     if (this.gameStateNodeList && this.gameStateNodeList.head) {
-      if (this.gameStateNodeList.head.gameStateComponent.playing) {
-        if (!this.gameStateNodeList.head.gameStateComponent.initialized) {
+      const gameStateNode = this.gameStateNodeList.head;
+
+      if (gameStateNode.gameStateComponent.playing) {
+        if (!gameStateNode.gameStateComponent.initialized) {
           this.entities.createDinoEntity();
           this.entities.createPlayerEntity();
 
-          this.gameStateNodeList.head.gameStateComponent.initialized = true;
+          gameStateNode.gameStateComponent.initialized = true;
         }
       }
     }

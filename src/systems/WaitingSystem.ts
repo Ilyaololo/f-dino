@@ -22,14 +22,16 @@ export class WaitingSystem extends System implements IWaitingSystem {
     this.waitingNodeList = core.getNodeList<IWaitingNode>(WaitingNode);
 
     if (this.waitingNodeList && this.waitingNodeList.head) {
-      if (!this.waitingNodeList.head.waitingComponent.rendered) {
-        this.waitingNodeList.head.waitingComponent.waitingView.render({
+      const waitingNode = this.waitingNodeList.head;
+
+      if (!waitingNode.waitingComponent.rendered) {
+        waitingNode.waitingComponent.waitingView.render({
           onClick: () => {
-            this.waitingNodeList!.head!.waitingComponent.waiting = false;
+            waitingNode.waitingComponent.waiting = false;
           },
         });
 
-        this.waitingNodeList.head.waitingComponent.rendered = true;
+        waitingNode.waitingComponent.rendered = true;
       }
     }
   }
@@ -46,16 +48,20 @@ export class WaitingSystem extends System implements IWaitingSystem {
    */
   public update(time: number): void {
     if (this.waitingNodeList && this.waitingNodeList.head) {
-      if (!this.waitingNodeList.head.waitingComponent.waiting) {
-        if (!this.waitingNodeList.head.waitingComponent.destroyed) {
-          this.waitingNodeList.head.waitingComponent.waitingView.destroy();
+      const waitingNode = this.waitingNodeList.head;
 
-          this.waitingNodeList.head.waitingComponent.rendered = false;
-          this.waitingNodeList.head.waitingComponent.destroyed = true;
+      if (!waitingNode.waitingComponent.waiting) {
+        if (!waitingNode.waitingComponent.destroyed) {
+          waitingNode.waitingComponent.waitingView.destroy();
+
+          waitingNode.waitingComponent.rendered = false;
+          waitingNode.waitingComponent.destroyed = true;
         }
 
         if (this.gameStateNodeList && this.gameStateNodeList.head) {
-          this.gameStateNodeList.head.gameStateComponent.playing = true;
+          const gameStateNode = this.gameStateNodeList.head;
+
+          gameStateNode.gameStateComponent.playing = true;
         }
       }
     }

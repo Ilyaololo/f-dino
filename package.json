@@ -13,6 +13,7 @@
   "homepage": "https://github.com/Ilyaololo/f-dino#readme",
   "scripts": {
     "build": "better-npm-run build",
+    "cache": "rimraf node_modules/.cache",
     "dev": "concurrently \"better-npm-run dev\" \"better-npm-run serve\"",
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "serve": "better-npm-run serve"
@@ -79,6 +80,7 @@
     "hard-source-webpack-plugin": "^0.13.1",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^2.2.0",
+    "rimraf": "^2.6.3",
     "serve": "^11.0.0",
     "ts-node": "^8.1.0",
     "tsconfig-paths": "^3.8.0",
