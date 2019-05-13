@@ -1,3 +1,5 @@
+import { injectable as Injectable } from 'inversify';
+
 import { ICore } from '@core/Core';
 import { INodeList } from '@core/node/NodeList';
 import { ISystem, System } from '@core/system/System';
@@ -9,6 +11,7 @@ export interface IMovePlayerSystem extends ISystem {
 }
 
 @Bind()
+@Injectable()
 export class MovePlayerSystem extends System implements IMovePlayerSystem {
   private playerNodeList: INodeList<IPlayerNode> | null = null;
 

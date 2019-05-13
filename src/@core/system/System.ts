@@ -1,5 +1,9 @@
+import { injectable as Injectable } from 'inversify';
+
 import { ICore } from '@core/Core';
 import { Bind } from '@core/utils/bind';
+
+export type ClassSystem = new (...args: any[]) => ISystem;
 
 export interface ISystem {
   next: this | null;
@@ -10,6 +14,7 @@ export interface ISystem {
 }
 
 @Bind()
+@Injectable()
 export class System implements ISystem {
   /**
    * Reference on next system in a system list.

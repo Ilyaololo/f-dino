@@ -1,3 +1,5 @@
+import { injectable as Injectable } from 'inversify';
+
 import { Bind } from '@core/utils/bind';
 import { Descriptor } from '@core/utils/descriptors';
 
@@ -11,6 +13,7 @@ export interface IEventEmitter {
 }
 
 @Bind()
+@Injectable()
 export class EventEmitter implements IEventEmitter {
   // @Descriptor({
   //   enumerable: false,

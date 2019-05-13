@@ -1,3 +1,5 @@
+import { Container } from 'inversify';
+
 import { IComponents } from '@core/components/Components';
 
 import { IEntity } from '@core/entity/Entity';
@@ -9,7 +11,7 @@ import { Node } from '@core/node/Node';
 import { INodeList } from '@core/node/NodeList';
 import { INodeManager, NodeManager } from '@core/node/NodeManager';
 
-import { ISystem } from '@core/system/System';
+import { ClassSystem, ISystem } from '@core/system/System';
 import { ISystemList, SystemList } from '@core/system/SystemList';
 
 import { Bind } from '@core/utils/bind';
@@ -18,7 +20,7 @@ import * as CONSTANTS from '@core/constants';
 
 export interface ICore extends IEventEmitter {
   appendEntity(entity: IEntity): this;
-  appendSystem(system: ISystem): this;
+  appendSystem(system: ClassSystem, ...args: any[]): this;
   getNodeList<T>(node: typeof Node): INodeList<T>;
   removeEntity(entity: IEntity): this;
   removeSystem(system: ISystem): this;
@@ -42,7 +44,9 @@ export class Core extends EventEmitter implements ICore {
    */
   private readonly systems: ISystemList;
 
-  constructor() {
+  constructor(
+    private readonly container: Container,
+  ) {
     super();
 
     this.entities = new EntityList();
@@ -107,7 +111,12 @@ export class Core extends EventEmitter implements ICore {
   /**
    * Add a system to the core.
    */
-  public appendSystem(system: ISystem): this {
+  public appendSystem(System: ClassSystem, ...args: any[]): this {
+    this.container.bind(System).toSelf(); // ...args?!
+
+    // const system: ISystem = new System(...args);
+    const system = this.container.get(System);
+
     this.systems.set(system);
 
     system.start(this);

@@ -1,3 +1,5 @@
+import { injectable as Injectable } from 'inversify';
+
 import { ICore } from '@core/Core';
 import { INodeList } from '@core/node/NodeList';
 import { ISystem, System } from '@core/system/System';
@@ -10,6 +12,7 @@ export interface IWaitingSystem extends ISystem {
 }
 
 @Bind()
+@Injectable()
 export class WaitingSystem extends System implements IWaitingSystem {
   private gameStateNodeList: INodeList<IGameStateNode> | null = null;
   private waitingNodeList: INodeList<IWaitingNode> | null = null;

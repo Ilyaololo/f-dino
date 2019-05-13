@@ -1,6 +1,10 @@
+import { injectable as Injectable } from 'inversify';
+
 import { ICore } from '@core/Core';
 import { Entity, IEntity } from '@core/entity/Entity';
 import { Bind } from '@core/utils/bind';
+
+import { IEntityManager } from 'services/entity/common/entity';
 
 import { Camera } from 'components/Camera';
 import { Collision } from 'components/Collision';
@@ -23,14 +27,8 @@ import { RendererView } from 'graphics/RendererView';
 import { SceneView } from 'graphics/SceneView';
 import { WaitingView } from 'graphics/WaitingView';
 
-export interface IEntityManager {
-  createDinoEntity(): IEntity;
-  createGameEntity(): IEntity;
-  createMazeEntity(): IEntity;
-  createPlayerEntity(): IEntity;
-}
-
 @Bind()
+@Injectable()
 export class EntityManager implements IEntityManager {
   constructor(
     private readonly core: ICore,

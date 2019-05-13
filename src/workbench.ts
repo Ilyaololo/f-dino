@@ -5,7 +5,8 @@ import { configureService } from 'services';
 import { Core, ICore } from '@core/Core';
 import { Bind } from '@core/utils/bind';
 
-import { EntityManager, IEntityManager } from 'entity';
+import { ENTITY_MANAGER, IEntityManager } from 'services/entity/common/entity';
+import { EntityManager } from 'services/entity/web/entity';
 
 import { CollisionSystem } from 'systems/CollisionSystem';
 import { GameManagerSystem } from 'systems/GameManagerSystem';
@@ -28,37 +29,33 @@ export class Workbench implements IWorkbench {
   private readonly core: ICore;
 
   /**
-   * Entity manager reference.
-   */
-  private readonly entities: IEntityManager;
-
-  /**
    * DI container reference.
    */
   private readonly container: Container;
 
   constructor() {
     this.container = configureService();
-    this.core = new Core();
-    this.entities = new EntityManager(this.core);
+
+    this.core = new Core(this.container);
+
+    this.container.bind<IEntityManager>(ENTITY_MANAGER).toDynamicValue(() => {
+      return new EntityManager(this.core);
+    });
   }
 
   /**
    * Configure ECS Systems.
    */
   private appendSystem(): void {
-    this.entities.createGameEntity();
-    this.entities.createMazeEntity();
+    this.core.appendSystem(GameManagerSystem);
+    this.core.appendSystem(SoundSystem);
+    this.core.appendSystem(WaitingSystem);
 
-    this.core.appendSystem(new GameManagerSystem(this.entities));
-    this.core.appendSystem(new SoundSystem());
-    this.core.appendSystem(new WaitingSystem());
+    this.core.appendSystem(CollisionSystem);
+    this.core.appendSystem(MovePlayerSystem);
+    this.core.appendSystem(UserInputSystem);
 
-    this.core.appendSystem(new CollisionSystem());
-    this.core.appendSystem(new MovePlayerSystem());
-    this.core.appendSystem(new UserInputSystem());
-
-    this.core.appendSystem(new RendererSystem());
+    this.core.appendSystem(RendererSystem);
   }
 
   /**

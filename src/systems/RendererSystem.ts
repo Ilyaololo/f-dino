@@ -1,3 +1,5 @@
+import { injectable as Injectable } from 'inversify';
+
 import { ICore } from '@core/Core';
 import { INodeList } from '@core/node/NodeList';
 import { ISystem, System } from '@core/system/System';
@@ -14,6 +16,7 @@ export interface IRendererSystem extends ISystem {
 }
 
 @Bind()
+@Injectable()
 export class RendererSystem extends System implements IRendererSystem {
   private cameraNodeList: INodeList<ICameraNode> | null = null;
   private dinoNodeList: INodeList<IDinoNode> | null = null;
