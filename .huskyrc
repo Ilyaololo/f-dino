@@ -1,5 +1,5 @@
 {
   "hooks": {
-    "pre-commit": "tslint --project tsconfig.json --config tslint.json"
+    "pre-commit": "eslint --ext .ts --ext .tsx ."
   }
 }

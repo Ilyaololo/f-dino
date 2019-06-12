@@ -1,6 +1,6 @@
 import { Clock } from 'three';
 
-import { Bind } from '@core/utils/bind';
+import { Bind } from 'f-ecs';
 
 export interface IPlayerView {
 }

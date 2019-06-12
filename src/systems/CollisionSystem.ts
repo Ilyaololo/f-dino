@@ -1,9 +1,6 @@
 import { injectable as Injectable } from 'inversify';
 
-import { ICore } from '@core/Core';
-import { INodeList } from '@core/node/NodeList';
-import { ISystem, System } from '@core/system/System';
-import { Bind } from '@core/utils/bind';
+import { Bind, ICore, INodeList, ISystem, System } from 'f-ecs';
 
 import { CollisionNode, ICollisionNode } from 'nodes/CollisionNode';
 
@@ -25,7 +22,7 @@ export class CollisionSystem extends System implements ICollisionSystem {
   /**
    * @override
    */
-  public destroy(core: ICore): void {
+  public destroy(): void {
     this.collisionNodeList = null;
   }
 }

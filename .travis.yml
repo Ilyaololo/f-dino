@@ -4,11 +4,3 @@ node_js:
 cache: yarn
 script:
   - yarn run build
-#deploy:
-#  provider: heroku
-#  api_key:
-#    secure: LImm1LY4ubGrlBgzlwXI46OxfrypEBdJqo12gLImv7RPGkO83Gis1hPQ+bM5B6MCAz6h91O3uYmJL0Zn9u/N13Ius90nMjjgyP+sg08BcL11lBVYG9etF0R62LQg9O1teyixLqwRLayAA/NLM/3eEDsROHXHKpNSTeV0hOTUgnu5RAizKm0LdoEQDcLJngx25lKXbwLAaXggyBOnNEd6zyxBu8NvA/DgQSLRNoozywp9RBVjkCzYcN5my++8sijnLaLPUfoe9nwdSyhtc5FWx7oFEvqaVMNG2wiGUqdDebGsTHtKzTi5CWicnEfDK3y0vTHTNO7z8bsyzY156wl5khlAQqH1BLrXm4GebO9LcEasCNs0hzM+1QlxoNcHwMLzzBxT0oAgB800sbQ+TgtvnSZnfyJqZD3CbSMNp9hW/dwPUu12vqmHtniWJOBHNDsTDILtz3OaqlNE36KiPHHHous9DnLcZ4coOooscnZ6BcuUMXfyhuQ8HE9EGwUIAFtvJ4rcpkfj8imu7LZBpQUeEHz4KFIAsRQPxBiPPbZ8HzdnmDoW7sZ7CD5A2cyusphxxnIQ1E7dnh+Y3QAxtjdgbydUGFJeHW0tgCp3PiaMtunvhjgXaobB2LyCn9FC0klRjv6Gj0w8/wh3JtdOi8WdKfENjsCPLqai18YcYt9OIjM=
-#  skip_cleanup: true
-#  app: f-dino
-#  on:
-#    repo: Ilyaololo/f-dino

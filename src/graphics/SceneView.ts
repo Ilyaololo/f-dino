@@ -1,6 +1,6 @@
 import { FogExp2, Scene } from 'three';
 
-import { Bind } from '@core/utils/bind';
+import { Bind } from 'f-ecs';
 
 export interface ISceneView {
   scene: Scene;

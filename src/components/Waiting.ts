@@ -1,5 +1,4 @@
-import { Components, IComponents } from '@core/components/Components';
-import { Bind } from '@core/utils/bind';
+import { Bind, Components, IComponents } from 'f-ecs';
 
 import { IWaitingView } from 'graphics/WaitingView';
 
@@ -15,7 +14,9 @@ export class Waiting extends Components implements IWaiting {
   public readonly displayName: string = 'waitingComponent';
 
   public readonly destroyed: boolean = false;
+
   public readonly rendered: boolean = false;
+
   public readonly waiting: boolean = true;
 
   constructor(

@@ -1,9 +1,6 @@
 import { injectable as Injectable } from 'inversify';
 
-import { ICore } from '@core/Core';
-import { INodeList } from '@core/node/NodeList';
-import { ISystem, System } from '@core/system/System';
-import { Bind } from '@core/utils/bind';
+import { Bind, ICore, INodeList, ISystem, System } from 'f-ecs';
 
 import { IEntityManager } from 'services/entity/common/entity';
 
@@ -31,30 +28,32 @@ export class GameManagerSystem extends System implements IGameManagerSystem {
 
     this.entityManager.createGameEntity();
     this.entityManager.createMazeEntity();
+
+    this.entityManager.createDinoEntity();
   }
 
   /**
    * @override
    */
-  public destroy(core: ICore): void {
+  public destroy(): void {
     this.gameStateNodeList = null;
   }
 
   /**
    * @override
    */
-  public update(time: number): void {
+  public update(): void {
     if (this.gameStateNodeList && this.gameStateNodeList.head) {
-      const gameStateNode = this.gameStateNodeList.head;
+      const { gameStateComponent } = this.gameStateNodeList.head;
 
-      if (gameStateNode.gameStateComponent.playing) {
-        if (!gameStateNode.gameStateComponent.initialized) {
-          this.entityManager.createDinoEntity();
-          this.entityManager.createPlayerEntity();
-
-          gameStateNode.gameStateComponent.initialized = true;
-        }
-      }
+      // if (gameStateComponent.playing) {
+      //   if (!gameStateComponent.initialized) {
+      //     this.entityManager.createDinoEntity();
+      //     this.entityManager.createPlayerEntity();
+      //
+      //     gameStateComponent.initialized = true;
+      //   }
+      // }
     }
   }
 }

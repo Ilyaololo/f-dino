@@ -1,4 +1,18 @@
 {
-  "presets": ["@babel/preset-env"],
-  "plugins": []
+  "presets": [
+    ["@babel/preset-env", {
+      "corejs": {
+        "proposals": true,
+        "version": 3
+      },
+      "debug": false,
+      "exclude": ["transform-classes"],
+      "useBuiltIns": "usage"
+    }]
+  ],
+  "plugins": [
+    ["lodash", {
+      "id": ["lodash", "recompose"]
+    }]
+  ]
 }

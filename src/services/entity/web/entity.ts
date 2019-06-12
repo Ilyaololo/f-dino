@@ -1,8 +1,6 @@
 import { injectable as Injectable } from 'inversify';
 
-import { ICore } from '@core/Core';
-import { Entity, IEntity } from '@core/entity/Entity';
-import { Bind } from '@core/utils/bind';
+import { Bind, Core, Entity, IEntity } from 'f-ecs';
 
 import { IEntityManager } from 'services/entity/common/entity';
 
@@ -13,7 +11,7 @@ import { GameState } from 'components/GameState';
 import { Light } from 'components/Light';
 import { Maze } from 'components/Maze';
 import { Player } from 'components/Player';
-import { Renderer } from 'components/Renderer';
+import { Render } from 'components/Render';
 import { Scene } from 'components/Scene';
 import { Sound } from 'components/Sound';
 import { Waiting } from 'components/Waiting';
@@ -23,16 +21,22 @@ import { DinoView } from 'graphics/DinoView';
 import { LightView } from 'graphics/LightView';
 import { MazeView } from 'graphics/MazeView';
 import { PlayerView } from 'graphics/PlayerView';
-import { RendererView } from 'graphics/RendererView';
+import { RenderView } from 'graphics/RenderView';
 import { SceneView } from 'graphics/SceneView';
 import { WaitingView } from 'graphics/WaitingView';
 
 @Bind()
 @Injectable()
 export class EntityManager implements IEntityManager {
+  /**
+   * Reference.
+   */
+  private readonly entities: Map<string, IEntity>;
+
   constructor(
-    private readonly core: ICore,
+    private readonly core: Core,
   ) {
+    this.entities = new Map<string, IEntity>();
   }
 
   public createGameEntity(): IEntity {
@@ -60,9 +64,11 @@ export class EntityManager implements IEntityManager {
 
     entity.set(new Sound());
 
-    entity.set(new Renderer(
-      new RendererView(),
+    entity.set(new Render(
+      new RenderView(),
     ));
+
+    this.entities.set(entity.displayName, entity);
 
     this.core.appendEntity(entity);
 
@@ -76,6 +82,8 @@ export class EntityManager implements IEntityManager {
       new MazeView(),
     ));
 
+    this.entities.set(entity.displayName, entity);
+
     this.core.appendEntity(entity);
 
     return entity;
@@ -88,6 +96,8 @@ export class EntityManager implements IEntityManager {
       new DinoView(),
     ));
 
+    this.entities.set(entity.displayName, entity);
+
     this.core.appendEntity(entity);
 
     return entity;
@@ -99,6 +109,8 @@ export class EntityManager implements IEntityManager {
     entity.set(new Player(
       new PlayerView(),
     ));
+
+    this.entities.set(entity.displayName, entity);
 
     this.core.appendEntity(entity);
 

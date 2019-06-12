@@ -1,6 +1,6 @@
-import { DirectionalLight, Scene } from 'three';
+import { DirectionalLight } from 'three';
 
-import { Bind } from '@core/utils/bind';
+import { Bind } from 'f-ecs';
 
 export interface ILightView {
   primary: DirectionalLight;
@@ -9,7 +9,14 @@ export interface ILightView {
 
 @Bind()
 export class LightView implements ILightView {
+  /**
+   * Reference.
+   */
   public readonly primary: DirectionalLight;
+
+  /**
+   * Reference.
+   */
   public readonly secondary: DirectionalLight;
 
   constructor() {

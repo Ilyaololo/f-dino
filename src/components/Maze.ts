@@ -1,5 +1,4 @@
-import { Components, IComponents } from '@core/components/Components';
-import { Bind } from '@core/utils/bind';
+import { Bind, Components, IComponents } from 'f-ecs';
 
 import { IMazeView } from 'graphics/MazeView';
 

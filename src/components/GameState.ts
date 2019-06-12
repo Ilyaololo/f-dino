@@ -1,5 +1,4 @@
-import { Components, IComponents } from '@core/components/Components';
-import { Bind } from '@core/utils/bind';
+import { Bind, Components, IComponents } from 'f-ecs';
 
 export interface IGameState extends IComponents {
   playing: boolean;
@@ -10,6 +9,13 @@ export interface IGameState extends IComponents {
 export class GameState extends Components implements IGameState {
   public readonly displayName: string = 'gameStateComponent';
 
+  /**
+   * Reference.
+   */
   public initialized: boolean = false;
+
+  /**
+   * Reference.
+   */
   public playing: boolean = false;
 }

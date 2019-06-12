@@ -1,6 +1,6 @@
 import { inject } from 'inversify';
 
-import { IEntity } from '@core/entity/Entity';
+import { IEntity } from 'f-ecs';
 
 export interface IEntityManager {
   createDinoEntity(): IEntity;

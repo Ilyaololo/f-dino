@@ -1,6 +1,4 @@
-import { INode, Node } from '@core/node/Node';
-import { Bind } from '@core/utils/bind';
-import { Define } from '@core/utils/define';
+import { Bind, Define, INode, Node } from 'f-ecs';
 
 import { Camera, ICamera } from 'components/Camera';
 

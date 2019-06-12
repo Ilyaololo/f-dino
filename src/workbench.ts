@@ -2,19 +2,13 @@ import { Container } from 'inversify';
 
 import { configureService } from 'services';
 
-import { Core, ICore } from '@core/Core';
-import { Bind } from '@core/utils/bind';
+import { Bind, ICore, Core, System } from 'f-ecs';
 
-import { ENTITY_MANAGER, IEntityManager } from 'services/entity/common/entity';
-import { EntityManager } from 'services/entity/web/entity';
-
-import { CollisionSystem } from 'systems/CollisionSystem';
-import { GameManagerSystem } from 'systems/GameManagerSystem';
-import { MovePlayerSystem } from 'systems/MovePlayerSystem';
-import { RendererSystem } from 'systems/RendererSystem';
-import { SoundSystem } from 'systems/SoundSystem';
-import { UserInputSystem } from 'systems/UserInputSystem';
-import { WaitingSystem } from 'systems/WaitingSystem';
+import { CollisionSystem, ICollisionSystem } from 'systems/CollisionSystem';
+import { GameManagerSystem, IGameManagerSystem } from 'systems/GameManagerSystem';
+import { RenderSystem, IRenderSystem } from 'systems/RenderSystem';
+import { SoundSystem, ISoundSystem } from 'systems/SoundSystem';
+import { WaitingSystem, IWaitingSystem } from 'systems/WaitingSystem';
 
 export interface IWorkbench {
   prepare(): void;
@@ -36,26 +30,42 @@ export class Workbench implements IWorkbench {
   constructor() {
     this.container = configureService();
 
-    this.core = new Core(this.container);
-
-    this.container.bind<IEntityManager>(ENTITY_MANAGER).toDynamicValue(() => {
-      return new EntityManager(this.core);
-    });
+    this.core = this.container.get(Core);
   }
 
   /**
    * Configure ECS Systems.
    */
   private appendSystem(): void {
-    this.core.appendSystem(GameManagerSystem);
-    this.core.appendSystem(SoundSystem);
-    this.core.appendSystem(WaitingSystem);
+    this.core.appendSystem(() => {
+      this.container.bind<IGameManagerSystem>(GameManagerSystem).toSelf();
 
-    this.core.appendSystem(CollisionSystem);
-    this.core.appendSystem(MovePlayerSystem);
-    this.core.appendSystem(UserInputSystem);
+      return this.container.get(GameManagerSystem);
+    });
 
-    this.core.appendSystem(RendererSystem);
+    this.core.appendSystem(() => {
+      this.container.bind<ISoundSystem>(SoundSystem).toSelf();
+
+      return this.container.get(SoundSystem);
+    });
+
+    this.core.appendSystem(() => {
+      this.container.bind<IWaitingSystem>(WaitingSystem).toSelf();
+
+      return this.container.get(WaitingSystem);
+    });
+
+    this.core.appendSystem(() => {
+      this.container.bind<ICollisionSystem>(CollisionSystem).toSelf();
+
+      return this.container.get(CollisionSystem);
+    });
+
+    this.core.appendSystem(() => {
+      this.container.bind<IRenderSystem>(RenderSystem).toSelf();
+
+      return this.container.get(RenderSystem);
+    });
   }
 
   /**

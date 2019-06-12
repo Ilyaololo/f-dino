@@ -1,9 +1,6 @@
 import { injectable as Injectable } from 'inversify';
 
-import { ICore } from '@core/Core';
-import { INodeList } from '@core/node/NodeList';
-import { ISystem, System } from '@core/system/System';
-import { Bind } from '@core/utils/bind';
+import { Bind, ICore, INodeList, ISystem, System } from 'f-ecs';
 
 import { GameStateNode, IGameStateNode } from 'nodes/GameStateNode';
 import { IWaitingNode, WaitingNode } from 'nodes/WaitingNode';
@@ -14,7 +11,14 @@ export interface IWaitingSystem extends ISystem {
 @Bind()
 @Injectable()
 export class WaitingSystem extends System implements IWaitingSystem {
+  /**
+   * Reference.
+   */
   private gameStateNodeList: INodeList<IGameStateNode> | null = null;
+
+  /**
+   * Reference.
+   */
   private waitingNodeList: INodeList<IWaitingNode> | null = null;
 
   /**
@@ -28,11 +32,11 @@ export class WaitingSystem extends System implements IWaitingSystem {
       const waitingNode = this.waitingNodeList.head;
 
       if (!waitingNode.waitingComponent.rendered) {
-        waitingNode.waitingComponent.waitingView.render({
+        waitingNode.waitingComponent.waitingView.render(/* {
           onClick: () => {
             waitingNode.waitingComponent.waiting = false;
           },
-        });
+        } */);
 
         waitingNode.waitingComponent.rendered = true;
       }
@@ -42,14 +46,14 @@ export class WaitingSystem extends System implements IWaitingSystem {
   /**
    * @override
    */
-  public destroy(core: ICore): void {
+  public destroy(): void {
     this.waitingNodeList = null;
   }
 
   /**
    * @override
    */
-  public update(time: number): void {
+  public update(): void {
     if (this.waitingNodeList && this.waitingNodeList.head) {
       const waitingNode = this.waitingNodeList.head;
 

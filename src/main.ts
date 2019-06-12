@@ -1,4 +1,3 @@
-import 'core-js';
 import 'reflect-metadata';
 
 import { IWorkbench, Workbench } from 'workbench';

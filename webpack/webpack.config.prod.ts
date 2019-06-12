@@ -1,7 +1,10 @@
 'use strict';
 
-import webpack from 'webpack';
+import * as webpack from 'webpack';
 import { Config } from 'webpack-config';
+
+import LodashWebpackPlugin from 'lodash-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
 
 const configuration = new Config()
   .extend({
@@ -12,6 +15,18 @@ const configuration = new Config()
   .merge({
     mode: 'production',
 
+    optimization: {
+      minimizer: [
+        new TerserPlugin({
+          cache: true,
+          parallel: true,
+          terserOptions: {
+            compress: true,
+          },
+        }),
+      ],
+    },
+
     output: {
       filename: '[name].js',
     },
@@ -19,7 +34,7 @@ const configuration = new Config()
     plugins: [
       new webpack.optimize.AggressiveMergingPlugin(),
 
-      new webpack.optimize.ModuleConcatenationPlugin(),
+      new LodashWebpackPlugin(),
     ],
   });
 
